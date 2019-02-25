@@ -22,8 +22,8 @@ class ViewController: UIViewController {
     }
     @IBAction func dealThreeCards(_ sender: UIButton) {
         if(game.dealt.count + 3) <= cardButtons.count {
-            // TODO deal 3 cards
-            // TODO update view
+            game.dealCards(inTotalOf: 3)
+            updateViewFromModel()
         }
     }
     @IBAction func restart(_ sender: UIButton) {
@@ -62,10 +62,19 @@ class ViewController: UIViewController {
             attributedString.mutableString.setString(string)
         }
         
-        if card.fill == Card.Fill.open {
-            attributes[.strokeWidth] = 20.0
-        } else if card.fill == Card.Fill.solid {
-            attributes[.strokeWidth] = 5.0
+        if card.fill == Card.Fill.solid {
+            attributes[.strokeWidth] = -1
+        } else if card.fill == Card.Fill.stripped {
+            attributes[.strokeWidth] = -1
+            if card.color == Card.Color.red {
+                attributes[.foregroundColor] = UIColor.red.withAlphaComponent(0.15)
+            } else if card.color == Card.Color.green{
+                attributes[.foregroundColor] = UIColor.green.withAlphaComponent(0.35)
+            } else {
+                attributes[.foregroundColor] = UIColor.purple.withAlphaComponent(0.35)
+            }
+        } else {
+            attributes[.strokeWidth] = 5
         }
         
         attributedString = NSMutableAttributedString(string: string, attributes: attributes)
@@ -74,14 +83,23 @@ class ViewController: UIViewController {
     }
     
     func updateViewFromModel(){
-        for index in 0...11 {
+        for index in cardButtons.indices {
             let button = cardButtons[index]
-            let card = game.dealt.removeLast()
-            if card.isSelected {
-                
-            } else {
-                button.setAttributedTitle(face(for: card), for: .normal)
+            // check the dealt pile is not empty
+            print(index)
+            if index < game.dealt.count {
+                let card = game.dealt[index]
+                if card.isSelected {
+                    // do something if it is selected
+                } else {
+                    button.setAttributedTitle(face(for: card), for: .normal)
+                    button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                }
+            } else  {
+                button.setTitle("", for: UIControl.State.normal)
+                button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
             }
+            
         }
     }
     

@@ -25,11 +25,10 @@ class Set {
                 }
             }
         }
-        print(deck)
         deck.shuffle()
     }
     
-    // Deal cards 
+    // Deal a given number of cards
     func dealCards(inTotalOf: Int){
         for _ in 0..<inTotalOf {
             if !deck.isEmpty {

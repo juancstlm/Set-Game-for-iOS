@@ -19,7 +19,7 @@ struct Card {
     
     enum Shape: String {
         case triangle = "▲"
-        case rectangle = "⏹"
+        case rectangle = "■"
         case circle = "⬤"
         
         static var all: [Shape] {
