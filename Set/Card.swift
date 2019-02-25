@@ -15,6 +15,7 @@ struct Card {
     var shape: Shape = Shape.circle
     var number: Number = Number.one
     var fill: Fill = Fill.open
+    private var identifier: Int
     static var identifierFactory = 0
     
     enum Shape: String {
@@ -57,7 +58,6 @@ struct Card {
         }
     }
     
-    
     static func getUniqueIdentifier() -> Int{
         identifierFactory += 1
         return identifierFactory
@@ -68,13 +68,13 @@ struct Card {
         self.color = color
         self.fill = fill
         self.number = number
+        identifier = Card.getUniqueIdentifier()
     }
 }
 
 extension Card: Equatable {
     static func ==(lhs: Card, rhs: Card) -> Bool {
-        return
-        (lhs.color == rhs.color) &&
+        return (lhs.color == rhs.color) &&
         (lhs.shape == rhs.shape) &&
         (lhs.fill == rhs.fill) &&
         (lhs.number == rhs.number)

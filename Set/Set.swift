@@ -38,6 +38,33 @@ class Set {
         }
     }
     
+    //Select a given card
+    func selectCard(at index: Int) {
+        //Allow deselecting cards as long as three are not selected
+        if selected.count <= 1 {
+            // TODO implement the score
+            if let deselect = selected.index(of : dealt[index]){
+                selected.remove(at: deselect)
+                dealt[index].isSelected = false
+            } else{
+                dealt[index].isSelected = true
+                selected.append(dealt[index])
+            }
+        } else {
+            dealt[index].isSelected = true
+            selected.append(dealt[index])
+            
+            let allItemsEqual = selected.dropLast().allSatisfy{$0 == selected.last}
+            print(allItemsEqual)
+            
+            for index in selected.indices {
+                selected[index].isSelected = false
+            }
+            selected.removeAll()
+        }
+        
+    }
+    
     init() {
         createDeck()
     }

@@ -18,7 +18,13 @@ class ViewController: UIViewController {
     
     
     @IBAction func touchCard(_ sender: UIButton) {
-        
+        if let cardNumber = cardButtons.index(of: sender){
+            print("cardNumber = \(cardNumber)")
+            game.selectCard(at: cardNumber)
+            updateViewFromModel()
+        }else {
+            print("Chosen Card was not in cardButtons")
+        }
     }
     @IBAction func dealThreeCards(_ sender: UIButton) {
         if(game.dealt.count + 3) <= cardButtons.count {
@@ -90,10 +96,12 @@ class ViewController: UIViewController {
             if index < game.dealt.count {
                 let card = game.dealt[index]
                 if card.isSelected {
-                    // do something if it is selected
+                    button.layer.borderWidth = 4.0
+                    button.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
                 } else {
                     button.setAttributedTitle(face(for: card), for: .normal)
                     button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                    button.layer.borderWidth = 0
                 }
             } else  {
                 button.setTitle("", for: UIControl.State.normal)
