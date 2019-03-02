@@ -11,28 +11,56 @@ import UIKit
 class ViewController: UIViewController {
     
     private lazy var game = Set()
-
-    @IBOutlet weak var scoreLabel: UILabel!
-    @IBOutlet weak var setIndicator: UILabel!
+    
+    @IBOutlet weak var scoreLabel: UILabel! {didSet{updateScoreLabel()}}
+    @IBOutlet weak var setIndicator: UILabel! {didSet{updateSetIndicatorLabel()}}
     @IBOutlet var cardButtons: [UIButton]!
     
+    private(set) var isSet = false {didSet{updateSetIndicatorLabel()}}
+    private(set) var score = 0 {didSet{updateScoreLabel()}}
     
     @IBAction func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender){
             print("cardNumber = \(cardNumber)")
-            game.selectCard(at: cardNumber)
-            updateViewFromModel()
+            if cardNumber < game.dealt.count {
+                game.selectCard(at: cardNumber)
+                updateViewFromModel()
+            }
+            else {
+                print("Chosen Card was not in cardButtons")
+            }
         }else {
             print("Chosen Card was not in cardButtons")
         }
     }
     @IBAction func dealThreeCards(_ sender: UIButton) {
         if(game.dealt.count + 3) <= cardButtons.count {
+            
             game.dealCards(inTotalOf: 3)
             updateViewFromModel()
+        } else {
+            sender.isEnabled = false
         }
     }
     @IBAction func restart(_ sender: UIButton) {
+        newGame()
+    }
+    
+    private func updateSetIndicatorLabel () {
+        if(game.isSelectedSet){
+            let attributedString = NSAttributedString(string: "Set Found")
+            print("We found a set boysss!!!")
+            setIndicator.attributedText = attributedString
+        } else {
+            let attributedString = NSAttributedString(string: "Not a Set")
+            print("not a set")
+            setIndicator.attributedText = attributedString
+        }
+    }
+    
+    private func updateScoreLabel(){
+        let attributedString = NSAttributedString(string: "Score \(score)")
+        scoreLabel.attributedText = attributedString
     }
     
     func face(for card: Card) -> NSMutableAttributedString {
@@ -89,6 +117,8 @@ class ViewController: UIViewController {
     }
     
     func updateViewFromModel(){
+        isSet = game.isSelectedSet
+        score = game.score
         for index in cardButtons.indices {
             let button = cardButtons[index]
             // check the dealt pile is not empty
@@ -129,7 +159,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         newGame()
     }
-
-
+    
+    
 }
 

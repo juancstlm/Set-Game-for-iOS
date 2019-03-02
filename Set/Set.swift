@@ -13,7 +13,9 @@ class Set {
     var dealt = [Card]()
     var selected = [Card]()
     var matched: [Card] = []
+    var isSelectedSet = false
     
+    //Create the 81 different cards
     func createDeck(){
         deck = [Card]()
         for color in 0...2 {
@@ -25,6 +27,7 @@ class Set {
                 }
             }
         }
+        // shuffle them just for good measure
         deck.shuffle()
     }
     
@@ -38,13 +41,40 @@ class Set {
         }
     }
     
+    func checkSelected() {
+        if !(selected.count < 3){
+            isSelectedSet = selected.dropLast().allSatisfy{$0 == selected.last}
+            
+            // if the selected cards are a set
+            if(isSelectedSet){
+                score += 3
+                matched.append(contentsOf: selected)
+                dealCards(inTotalOf: 3)
+            } else {
+                score -= 4
+            }
+            
+            // After checking for set, deselect all the cards
+            for index in 0..<dealt.count {
+                if selected.contains(dealt[index]) {
+                    dealt[index].isSelected = false
+                }
+            }
+            // Clean the selected array
+            selected.removeAll()
+            // TODO move the selected cards to the matches array.
+        }
+    }
+    
     //Select a given card
     func selectCard(at index: Int) {
+        assert(dealt.indices.contains(index),"Set.chooseCard(at:\(index): chosen index isns not in the cards")
         //Allow deselecting cards as long as three are not selected
         if selected.count <= 1 {
             // TODO implement the score
             if let deselect = selected.index(of : dealt[index]){
                 selected.remove(at: deselect)
+                score -= 1
                 dealt[index].isSelected = false
             } else{
                 dealt[index].isSelected = true
@@ -54,13 +84,7 @@ class Set {
             dealt[index].isSelected = true
             selected.append(dealt[index])
             
-            let allItemsEqual = selected.dropLast().allSatisfy{$0 == selected.last}
-            print(allItemsEqual)
-            
-            for index in selected.indices {
-                selected[index].isSelected = false
-            }
-            selected.removeAll()
+           checkSelected()
         }
         
     }
