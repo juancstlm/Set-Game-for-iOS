@@ -41,6 +41,11 @@ class Set {
         }
     }
     
+    // Shuffles the dealt cards 
+    func shuffle(){
+        dealt.shuffle()
+    }
+    
     func checkSelected() {
         if !(selected.count < 3){
             isSelectedSet = selected.dropLast().allSatisfy{$0 == selected.last}

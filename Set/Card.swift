@@ -12,23 +12,24 @@ import UIKit
 struct Card {
     var isSelected = false
     var color: Color = Color.green
-    var shape: Shape = Shape.circle
+    var shape: Shape = Shape.oval
     var number: Number = Number.one
     var fill: Fill = Fill.open
     private var identifier: Int
     static var identifierFactory = 0
     
-    enum Shape: String {
-        case triangle = "▲"
-        case rectangle = "■"
-        case circle = "⬤"
+    enum Shape{
+        case diamond
+        case squiggle
+        case oval
         
         static var all: [Shape] {
-            return [.triangle, .rectangle, .circle]
+            return [.diamond, .squiggle, .oval]
         }
     }
     
     enum Color{
+        
         case red
         case green
         case purple
@@ -48,10 +49,10 @@ struct Card {
         }
     }
     
-    enum Number {
-        case one
-        case two
-        case three
+    enum Number:Int {
+        case one = 1
+        case two = 2
+        case three = 3
         
         static var all: [Number]{
             return [.one,.two,.three]
