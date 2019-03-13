@@ -24,9 +24,20 @@ class ViewController: UIViewController {
     @IBAction func dealThreeCards(_ sender: UIButton) {
         // TDODO
     }
+    @IBAction func dealCards(_ sender: UISwipeGestureRecognizer) {
+        // Deal 3 Cards
+    }
+    @IBAction func shuffleDeck(_ sender: UIRotationGestureRecognizer) {
+        game.shuffle()
+        updateViewFromModel()
+    }
     
     @IBAction func restart(_ sender: UIButton) {
         newGame()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        updateViewFromModel()
     }
     
     private func updateSetIndicatorLabel () {
@@ -51,30 +62,12 @@ class ViewController: UIViewController {
         score = game.score
         
         cardView.drawPips(for: game.dealt[0], size: 12, orientation: Orientation.vertical)
-        view.addSubview(createCardView(card: game.dealt[1], index: 2))
+//        gridView.addSubview(createCardView(card: game.dealt[1], index: 2))
+        let otherCard = createCardView(card: game.dealt[1], index: 0)
+        self.view.addSubview(otherCard)
         
-//        for index in cardButtons.indices {
-//            let button = cardButtons[index]
-//            // check the dealt pile is not empty
-//            print(index)
-//            if index < game.dealt.count {
-//                let card = game.dealt[index]
-//                if card.isSelected {
-//                    button.layer.borderWidth = 4.0
-//                    button.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-//                } else {
-//                    button.setAttributedTitle(face(for: card), for: .normal)
-//                    button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//                    button.layer.borderWidth = 0
-//                }
-//            } else  {
-//                button.setTitle("", for: UIControl.State.normal)
-//                button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-//            }
-//
-//        }
-        view.setNeedsDisplay()
-        view.setNeedsLayout()
+        gridView.setNeedsDisplay()
+        gridView.setNeedsLayout()
     }
     
     func createCardView(card: Card, index: Int) -> UIView {
@@ -93,6 +86,12 @@ class ViewController: UIViewController {
         }
         
         cardV.drawPips(for: card, size: cardSize, orientation: orientation)
+        
+        if card.isSelected {
+            for view in cardV.subviews{
+                view.backgroundColor = UIColor.orange
+            }
+        }
         
         return cardV
     }

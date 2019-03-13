@@ -59,8 +59,8 @@
                                     <action selector="restart:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AwV-YO-BU4"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tOO-dP-NOD" customClass="GridView" customModule="Set" customModuleProvider="target">
-                                <rect key="frame" x="16" y="80" width="343" height="660"/>
+                            <view contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tOO-dP-NOD" customClass="GridView" customModule="Set" customModuleProvider="target">
+                                <rect key="frame" x="16" y="521" width="343" height="219"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -80,7 +80,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="right" id="V1b-Nv-ITY"/>
+                <rotationGestureRecognizer rotation="1" id="Krh-uh-P7D">
+                    <connections>
+                        <action selector="shuffleDeck:" destination="BYZ-38-t0r" id="jw1-Lh-Cin"/>
+                    </connections>
+                </rotationGestureRecognizer>
+                <swipeGestureRecognizer direction="down" id="V1b-Nv-ITY">
+                    <connections>
+                        <action selector="dealCards:" destination="BYZ-38-t0r" id="GyD-T1-s70"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="40.799999999999997" y="20.689655172413794"/>
         </scene>
