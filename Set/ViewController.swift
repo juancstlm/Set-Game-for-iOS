@@ -15,7 +15,6 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var scoreLabel: UILabel! {didSet{updateScoreLabel()}}
     @IBOutlet weak var setIndicator: UILabel! {didSet{updateSetIndicatorLabel()}}
-    @IBOutlet weak var cardView: CardView!
     
     private(set) var isSet = false {didSet{updateSetIndicatorLabel()}}
     private(set) var score = 0 {didSet{updateScoreLabel()}}
@@ -82,9 +81,7 @@ class ViewController: UIViewController {
     func updateViewFromModel(){
         isSet = game.isSelectedSet
         score = game.score
-        
-        cardView.drawPips(for: game.dealt[0], size: 12, orientation: Orientation.vertical)
-//        gridView.addSubview(createCardView(card: game.dealt[1], index: 2))
+    
     }
     
     func createCardView(card: Card, index: Int) -> UIView {
@@ -134,7 +131,10 @@ class ViewController: UIViewController {
         updateViewFromModel()
     }
     
-    
+    func calculateWidthOfCard()-> Int {
+        let width = 50
+        return width
+    }
 }
 
 extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -146,13 +146,13 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         let cell = newCollection.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CollectionViewCell
         cell.backgroundColor = UIColor.white
         cell.layer.cornerRadius = 5
-        cell.cardVi.drawPips(for: game.dealt[0], size: 16, orientation: .vertical) 
+        cell.cardVi.drawPips(for: game.dealt[indexPath.item], size: 16, orientation: .vertical) 
         return cell
     }
     
     // THIS IS TO CUSTOMIZE THE CELLS
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 150, height: 250)
+        return CGSize(width: 50, height: 75)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
