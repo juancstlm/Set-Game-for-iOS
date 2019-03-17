@@ -16,9 +16,9 @@
 		7309840322232963000D015B /* SetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7309840222232963000D015B /* SetUITests.swift */; };
 		730BB82F22232DFD005AA634 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730BB82E22232DFD005AA634 /* Card.swift */; };
 		730BB8312223372C005AA634 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730BB8302223372C005AA634 /* Set.swift */; };
+		735F04A0223E988E00B50DE0 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735F049F223E988E00B50DE0 /* CollectionViewCell.swift */; };
 		739B5ABE2239652D00782921 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739B5ABD2239652D00782921 /* CardView.swift */; };
 		739B5AC022397C6700782921 /* ShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739B5ABF22397C6700782921 /* ShapeView.swift */; };
-		739B5AC222398B6400782921 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739B5AC122398B6400782921 /* GridView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,9 +54,9 @@
 		7309840422232963000D015B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		730BB82E22232DFD005AA634 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		730BB8302223372C005AA634 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
+		735F049F223E988E00B50DE0 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		739B5ABD2239652D00782921 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		739B5ABF22397C6700782921 /* ShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeView.swift; sourceTree = "<group>"; };
-		739B5AC122398B6400782921 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +115,7 @@
 				730BB82E22232DFD005AA634 /* Card.swift */,
 				730BB8302223372C005AA634 /* Set.swift */,
 				739B5ABF22397C6700782921 /* ShapeView.swift */,
-				739B5AC122398B6400782921 /* GridView.swift */,
+				735F049F223E988E00B50DE0 /* CollectionViewCell.swift */,
 			);
 			path = Set;
 			sourceTree = "<group>";
@@ -282,7 +282,7 @@
 				739B5AC022397C6700782921 /* ShapeView.swift in Sources */,
 				730BB8312223372C005AA634 /* Set.swift in Sources */,
 				730983E522232961000D015B /* ViewController.swift in Sources */,
-				739B5AC222398B6400782921 /* GridView.swift in Sources */,
+				735F04A0223E988E00B50DE0 /* CollectionViewCell.swift in Sources */,
 				730BB82F22232DFD005AA634 /* Card.swift in Sources */,
 				730983E322232961000D015B /* AppDelegate.swift in Sources */,
 				739B5ABE2239652D00782921 /* CardView.swift in Sources */,

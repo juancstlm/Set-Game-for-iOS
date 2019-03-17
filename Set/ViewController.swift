@@ -11,19 +11,41 @@ import UIKit
 class ViewController: UIViewController {
     
     private lazy var game = Set()
+    private var initalDealtCards = 12
     
     @IBOutlet weak var scoreLabel: UILabel! {didSet{updateScoreLabel()}}
     @IBOutlet weak var setIndicator: UILabel! {didSet{updateSetIndicatorLabel()}}
+    @IBOutlet weak var cardView: CardView!
     
     private(set) var isSet = false {didSet{updateSetIndicatorLabel()}}
     private(set) var score = 0 {didSet{updateScoreLabel()}}
     
-    @IBOutlet weak var cardView: CardView!
-    @IBOutlet weak var gridView: GridView!
+    // Adds a new Collection View to the view
+    let newCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collection = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
+        layout.scrollDirection = .vertical
+        collection.backgroundColor = UIColor.clear
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.isScrollEnabled = true
+        
+        return collection
+    }()
+    
+    let cellId = "cellId"
+    
+    func setupCollection(){
+        newCollection.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        newCollection.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        newCollection.heightAnchor.constraint(equalToConstant: view.frame.height - 180).isActive = true
+        newCollection.widthAnchor.constraint(equalToConstant: view.frame.width - 16).isActive = true
+    }
+    
     
     @IBAction func dealThreeCards(_ sender: UIButton) {
         // TDODO
     }
+    
     @IBAction func dealCards(_ sender: UISwipeGestureRecognizer) {
         // Deal 3 Cards
     }
@@ -63,11 +85,6 @@ class ViewController: UIViewController {
         
         cardView.drawPips(for: game.dealt[0], size: 12, orientation: Orientation.vertical)
 //        gridView.addSubview(createCardView(card: game.dealt[1], index: 2))
-        let otherCard = createCardView(card: game.dealt[1], index: 0)
-        self.view.addSubview(otherCard)
-        
-        gridView.setNeedsDisplay()
-        gridView.setNeedsLayout()
     }
     
     func createCardView(card: Card, index: Int) -> UIView {
@@ -98,15 +115,47 @@ class ViewController: UIViewController {
     
     func newGame(){
         game = Set()
-        game.dealCards(inTotalOf: 12)
+        game.dealCards(inTotalOf: initalDealtCards)
         updateViewFromModel()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         newGame()
+        
+        newCollection.delegate = self
+        newCollection.dataSource = self
+        
+        newCollection.register(CollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        view.addSubview(newCollection)
+        
+        setupCollection()
+        
+        updateViewFromModel()
     }
     
     
 }
 
+extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return game.dealt.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = newCollection.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CollectionViewCell
+        cell.backgroundColor = UIColor.white
+        cell.layer.cornerRadius = 5
+        cell.cardVi.drawPips(for: game.dealt[0], size: 16, orientation: .vertical) 
+        return cell
+    }
+    
+    // THIS IS TO CUSTOMIZE THE CELLS
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 150, height: 250)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+    }
+}
