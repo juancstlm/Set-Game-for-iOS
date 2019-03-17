@@ -18,7 +18,7 @@ class ShapeView: UIView {
     private struct sizes {
         static let strokePercent = 0.03
         static let numStripes = 11
-        static let symbolAspectRatio = 1.55
+        static let symbolAspectRatio = 1.4
     }
     
     @IBInspectable
@@ -42,7 +42,7 @@ class ShapeView: UIView {
         let height = width * CGFloat(sizes.symbolAspectRatio)
         
         let stroke = height * CGFloat(sizes.strokePercent)
-        let offset = height/28
+        let offset = height/36
         let path: UIBezierPath
         
         

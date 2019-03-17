@@ -14,7 +14,6 @@ class CardView: UIStackView {
         for view in subviews{
             view.removeFromSuperview()
         }
-        
         distribution = .fillEqually
         alignment = .center
 //        translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +35,7 @@ class CardView: UIStackView {
                 shapeView.color = UIColor.red
             }
             
-            shapeView.backgroundColor = .white
+            shapeView.backgroundColor = .clear
             addArrangedSubview(shapeView)
             
             if orientation == .horizontal {
