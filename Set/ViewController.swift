@@ -24,9 +24,11 @@ class ViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         let collection = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
         layout.scrollDirection = .vertical
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         collection.backgroundColor = UIColor.clear
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.isScrollEnabled = true
+        collection.allowsMultipleSelection = true
         
         return collection
     }()
@@ -42,7 +44,9 @@ class ViewController: UIViewController {
     
     
     @IBAction func dealThreeCards(_ sender: UIButton) {
-        // TDODO
+        game.dealCards(inTotalOf: 3)
+        newCollection.reloadData()
+        updateViewFromModel()
     }
     
     @IBAction func dealCards(_ sender: UISwipeGestureRecognizer) {
@@ -81,7 +85,6 @@ class ViewController: UIViewController {
     func updateViewFromModel(){
         isSet = game.isSelectedSet
         score = game.score
-    
     }
     
     func createCardView(card: Card, index: Int) -> UIView {
@@ -131,9 +134,25 @@ class ViewController: UIViewController {
         updateViewFromModel()
     }
     
-    func calculateWidthOfCard()-> Int {
-        let width = 50
-        return width
+    func calculateHeightOfCard()-> CGSize{
+        let count = game.dealt.count
+        let ratio = CGFloat( 0.75)
+        var height = CGFloat()
+        height = (newCollection.frame.height / 4 ) - 10.0
+        
+        if count <= 12 {
+            height = (newCollection.frame.height / 4 ) - 10.0
+            return CGSize(width: height * ratio, height: height)
+        }
+        return CGSize(width: 50, height: 70)
+    }
+    
+    func calculatePipSize()-> Int{
+        if game.dealt.count == 12 {
+            return 200
+        } else {
+            return 16
+        }
     }
 }
 
@@ -145,15 +164,36 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = newCollection.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CollectionViewCell
         cell.backgroundColor = UIColor.white
-        cell.layer.cornerRadius = 5
-        cell.cardVi.drawPips(for: game.dealt[indexPath.item], size: 16, orientation: .vertical) 
+        cell.layer.cornerRadius = 10
+        cell.cardVi.drawPips(for: game.dealt[indexPath.item], size: CGFloat(calculatePipSize()), orientation: .vertical)
         return cell
     }
     
-    // THIS IS TO CUSTOMIZE THE CELLS
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 50, height: 75)
+//    // THIS IS TO CUSTOMIZE THE CELLS
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//            return calculateHeightOfCard()
+////        return UICollectionViewFlowLayout.automaticSize
+////        return CGSize(width: collectionView.frame.width -10, height: 100)
+//    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("selected cell \(indexPath.item)")
+        
+        game.selectCard(at: indexPath.item)
+        updateViewFromModel()
     }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        let shouldSelect = collectionView.indexPathsForSelectedItems!.count < 3
+        print("Number of selected items: \(shouldSelect)")
+        if(!shouldSelect){
+
+            collectionView.deselectAllItems(animated: false)
+        }
+        return shouldSelect
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
