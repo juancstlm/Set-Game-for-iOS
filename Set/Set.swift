@@ -77,7 +77,7 @@ class Set {
         //Allow deselecting cards as long as three are not selected
         if selected.count <= 1 {
             // TODO implement the score
-            if let deselect = selected.index(of : dealt[index]){
+            if let deselect = selected.firstIndex(of : dealt[index]){
                 selected.remove(at: deselect)
                 score -= 1
                 dealt[index].isSelected = false
