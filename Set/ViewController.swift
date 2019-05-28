@@ -32,6 +32,11 @@ class ViewController: UIViewController {
         return collection
     }()
     
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent // .default
+    }
+    
     let cellId = "cellId"
     
     func setupCollection(){
