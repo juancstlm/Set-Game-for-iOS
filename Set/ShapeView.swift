@@ -24,17 +24,10 @@ class ShapeView: UIView {
     @IBInspectable
     var isSelected: Bool = false
     var orientation: Orientation = Orientation.vertical {didSet {setNeedsDisplay(); setNeedsLayout()}}
-    var shape: Card.Shape = Card.Shape.oval {didSet {setNeedsDisplay(); setNeedsLayout()}}
+    var shape: Card.Shape = Card.Shape.stadium {didSet {setNeedsDisplay(); setNeedsLayout()}}
     var color: UIColor = UIColor.green {didSet {setNeedsDisplay(); setNeedsLayout()}}
     var number: Card.Number = Card.Number.one {didSet {setNeedsDisplay(); setNeedsLayout()}}
-    var fill: Card.Fill = Card.Fill.open {didSet {setNeedsDisplay(); setNeedsLayout()}}
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+    var fill: Card.Shading = Card.Shading.open {didSet {setNeedsDisplay(); setNeedsLayout()}}
 
     override func draw(_ rect: CGRect) {
         
@@ -49,7 +42,7 @@ class ShapeView: UIView {
         /// SWITCH CASE FOR SHAPES
         /// Shout out to andriustheviking
         switch shape {
-        case .oval:
+        case .stadium:
             let shapeRect = CGRect(origin: CGPoint(x: offset , y: offset),
                                    size: CGSize(width: width - 2*offset,
                                                 height: height - 2*offset ) )

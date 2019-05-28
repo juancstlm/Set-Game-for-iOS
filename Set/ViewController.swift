@@ -24,7 +24,6 @@ class ViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         let collection = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
         layout.scrollDirection = .vertical
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         collection.backgroundColor = UIColor.clear
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.isScrollEnabled = true
@@ -83,6 +82,7 @@ class ViewController: UIViewController {
     }
     
     func updateViewFromModel(){
+        newCollection.reloadData()
         isSet = game.isSelectedSet
         score = game.score
     }
@@ -163,24 +163,29 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = newCollection.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CollectionViewCell
-        cell.backgroundColor = UIColor.green
+        cell.backgroundColor = UIColor.white
         cell.layer.cornerRadius = 8
         cell.cardVi.drawPips(for: game.dealt[indexPath.item], size: CGFloat(calculatePipSize()), orientation: .vertical)
         return cell
     }
     
-//    // THIS IS TO CUSTOMIZE THE CELLS
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//            return calculateHeightOfCard()
-////        return UICollectionViewFlowLayout.automaticSize
-////        return CGSize(width: collectionView.frame.width -10, height: 100)
-//    }
+    
+    
+    // THIS IS TO CUSTOMIZE THE CELLS
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            return calculateHeightOfCard()
+//        return UICollectionViewFlowLayout.automaticSize
+//        return CGSize(width: collectionView.frame.width -10, height: 100)
+    }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("selected cell \(indexPath.item)")
         
         game.selectCard(at: indexPath.item)
+        let cell = newCollection.cellForItem(at: indexPath)
+        cell?.backgroundColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        
         updateViewFromModel()
     }
     

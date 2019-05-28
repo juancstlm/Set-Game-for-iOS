@@ -107,13 +107,12 @@
 		730983E122232961000D015B /* Set */ = {
 			isa = PBXGroup;
 			children = (
+				734800D0229CBB2F009B79DD /* Model */,
 				730BB82D22232D36005AA634 /* Supporting Files */,
 				730983E422232961000D015B /* ViewController.swift */,
 				739B5ABD2239652D00782921 /* CardView.swift */,
 				730983E622232961000D015B /* Main.storyboard */,
 				730983EE22232963000D015B /* Info.plist */,
-				730BB82E22232DFD005AA634 /* Card.swift */,
-				730BB8302223372C005AA634 /* Set.swift */,
 				739B5ABF22397C6700782921 /* ShapeView.swift */,
 				735F049F223E988E00B50DE0 /* CollectionViewCell.swift */,
 			);
@@ -146,6 +145,15 @@
 				730983EB22232963000D015B /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		734800D0229CBB2F009B79DD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				730BB82E22232DFD005AA634 /* Card.swift */,
+				730BB8302223372C005AA634 /* Set.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -22,7 +22,7 @@ class Set {
             for fill in 0...2{
                 for shape in 0...2 {
                     for number in 0...2{
-                        deck.append(Card(shape: Card.Shape.all[shape], color: Card.Color.all[color], fill: Card.Fill.all[fill], number: Card.Number.all[number]))
+                        deck.append(Card(shape: Card.Shape.all[shape], color: Card.Color.all[color], fill: Card.Shading.all[fill], number: Card.Number.all[number]))
                     }
                 }
             }

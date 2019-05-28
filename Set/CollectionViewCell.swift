@@ -31,7 +31,7 @@ class CollectionViewCell: UICollectionViewCell {
 
         cardVi.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         cardVi.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        cardVi.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        cardVi.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -12).isActive = true
         cardVi.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         
         let leftConstraint = contentView.leftAnchor.constraint(equalTo: leftAnchor)
