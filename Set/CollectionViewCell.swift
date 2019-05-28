@@ -12,27 +12,27 @@ class CollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        layer.cornerRadius = 8
         setUpView()
     }
     
-    let cardVi: CardView = {
+    let cardView: CardView = {
         let v = CardView()
         v.translatesAutoresizingMaskIntoConstraints = false
         v.contentMode = .scaleToFill
         v.clipsToBounds = true
-        v.layer.cornerRadius = 10
+        v.layer.cornerRadius = 8
         
         return v
     }()
     
     func setUpView(){
-        addSubview(cardVi)
+        addSubview(cardView)
 
-        cardVi.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        cardVi.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        cardVi.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -12).isActive = true
-        cardVi.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        cardView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        cardView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        cardView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.7).isActive = true
+        cardView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         
         let leftConstraint = contentView.leftAnchor.constraint(equalTo: leftAnchor)
         let rightConstraint = contentView.rightAnchor.constraint(equalTo: rightAnchor)
@@ -43,26 +43,6 @@ class CollectionViewCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override var isSelected: Bool{
-        didSet{
-            if self.isSelected
-            {
-                self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-                self.contentView.layer.borderWidth = 2
-                self.contentView.layer.borderColor = UIColor.orange.cgColor
-                self.contentView.layer.cornerRadius = 10
-                
-//                self.tickImageView.isHidden = false
-            }
-            else
-            {
-                self.transform = CGAffineTransform.identity
-                self.contentView.layer.borderColor = UIColor.clear.cgColor
-//                self.tickImageView.isHidden = true
-            }
-        }
     }
 }
 

@@ -16,7 +16,8 @@ class CardView: UIStackView {
         }
         distribution = .fillProportionally
         alignment = .center
-//        translatesAutoresizingMaskIntoConstraints = false
+        spacing = 5
+        translatesAutoresizingMaskIntoConstraints = false
         
         // add the appropriate number of symbols
         for _ in 1...card.number.rawValue{
@@ -35,20 +36,20 @@ class CardView: UIStackView {
                 shapeView.color = #colorLiteral(red: 0.9979028106, green: 0, blue: 0.5254169703, alpha: 1)
             }
             
-            shapeView.backgroundColor = .clear
+            shapeView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
             addArrangedSubview(shapeView)
             
             if orientation == .horizontal {
                 axis = .horizontal
                 shapeView.orientation = .vertical
-                shapeView.heightAnchor.constraint(equalToConstant: size ).isActive = true
+                shapeView.heightAnchor.constraint(equalToConstant: 1 ).isActive = true
             }
             else {
                 axis = .vertical
                 shapeView.orientation = .horizontal
 //                shapeView.widthAnchor.constraint(equalToConstant: size ).isActive = true
-                shapeView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12).isActive = true
-                shapeView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12).isActive = true
+                shapeView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+                shapeView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
             }
         }
         setNeedsDisplay()

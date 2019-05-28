@@ -170,7 +170,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         let cell = newCollection.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CollectionViewCell
         cell.backgroundColor = UIColor.white
         cell.layer.cornerRadius = 8
-        cell.cardVi.drawPips(for: game.dealt[indexPath.item], size: CGFloat(calculatePipSize()), orientation: .vertical)
+        cell.cardView.drawPips(for: game.dealt[indexPath.item], size: CGFloat(calculatePipSize()), orientation: .vertical)
         return cell
     }
     
