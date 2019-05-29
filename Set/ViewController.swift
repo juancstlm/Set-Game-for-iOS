@@ -69,10 +69,6 @@ class ViewController: UIViewController {
         newGame()
     }
     
-    override func viewDidLayoutSubviews() {
-        updateViewFromModel()
-    }
-    
     //    private func updateSetIndicatorLabel () {
     //        if(game.isSelectedSet){
     //            let attributedString = NSAttributedString(string: setFoundString)
@@ -184,7 +180,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
             cell.layer.borderColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
             cell.layer.borderWidth = 4
         } else {
-            cell.layer.borderWidth = 0
+             cell.layer.borderWidth = 0
         }
         cell.cardView.drawPips(for: game.dealt[indexPath.item], size: CGFloat(calculatePipSize()), orientation: .vertical)
         return cell
@@ -199,11 +195,15 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         //        return CGSize(width: collectionView.frame.width -10, height: 100)
     }
     
+    func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
+        print("should deselect item at \(indexPath.item)")
+        return true
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // select the card in the model
         game.selectCard(at: indexPath.item)
-        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: UICollectionView.ScrollPosition.init())
         // show the card as being selected
         if let cell = collectionView.cellForItem(at: indexPath) {
             cell.layer.borderColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
@@ -230,24 +230,22 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
                 setIndicator.text = notASetString
             }
             collectionView.deselectAllItems(animated: true)
-                    DispatchQueue.main.async(execute: {
-                                        self.newCollection.reloadData()
-                                    })
         }
         
 
     }
+    
+    
+    finalLayout
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         print("deselect cell at \(indexPath.item)")
         // deselect the card from the game model
         game.deselectCard(at: indexPath.item)
         
-        
-        collectionView.deselectItem(at: indexPath, animated: true)
         score = game.score
         if let cell = collectionView.cellForItem(at: indexPath) {
-            cell.layer.borderWidth = 0
+             cell.layer.borderWidth = 0
         }
     }
     
