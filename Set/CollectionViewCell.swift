@@ -13,6 +13,7 @@ class CollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         layer.cornerRadius = 8
+        
         setUpView()
     }
     
@@ -43,13 +44,5 @@ class CollectionViewCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension UICollectionView {
-    
-    func deselectAllItems(animated: Bool) {
-        guard let selectedItems = indexPathsForSelectedItems else { return }
-        for indexPath in selectedItems { deselectItem(at: indexPath, animated: animated) }
     }
 }

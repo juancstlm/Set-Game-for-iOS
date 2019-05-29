@@ -10,13 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private lazy var game = Set()
+    private lazy var game = SetGame()
     private var initalDealtCards = 12
+    private var setFoundString = "Set!"
+    private var notASetString = "Not a set!"
     
     @IBOutlet weak var scoreLabel: UILabel! {didSet{updateScoreLabel()}}
-    @IBOutlet weak var setIndicator: UILabel! {didSet{updateSetIndicatorLabel()}}
+    @IBOutlet weak var setIndicator: UILabel!
     
-    private(set) var isSet = false {didSet{updateSetIndicatorLabel()}}
+    private(set) var isSet = false
     private(set) var score = 0 {didSet{updateScoreLabel()}}
     
     // Adds a new Collection View to the view
@@ -49,7 +51,9 @@ class ViewController: UIViewController {
     
     @IBAction func dealThreeCards(_ sender: UIButton) {
         game.dealCards(inTotalOf: 3)
-        newCollection.reloadData()
+        DispatchQueue.main.async(execute: {
+            self.newCollection.reloadData()
+        })
         updateViewFromModel()
     }
     
@@ -69,26 +73,31 @@ class ViewController: UIViewController {
         updateViewFromModel()
     }
     
-    private func updateSetIndicatorLabel () {
-        if(game.isSelectedSet){
-            let attributedString = NSAttributedString(string: "Set Found")
-            print("We found a set boysss!!!")
-            setIndicator.attributedText = attributedString
-        } else {
-            let attributedString = NSAttributedString(string: "Not a Set")
-            print("not a set")
-            setIndicator.attributedText = attributedString
-        }
-    }
+    //    private func updateSetIndicatorLabel () {
+    //        if(game.isSelectedSet){
+    //            let attributedString = NSAttributedString(string: setFoundString)
+    //            print("We found a set boysss!!!")
+    //            setIndicator.attributedText = attributedString
+    //        } else if (!game.selected.isEmpty) {
+    //            let attributedString = NSAttributedString(string: notASetString)
+    //            print("not a set")
+    //            setIndicator.attributedText = attributedString
+    //        } else {
+    //            let attributedString = NSAttributedString(string: "")
+    //            print("empty selected set")
+    //            setIndicator.attributedText = attributedString
+    //        }
+    //    }
     
     private func updateScoreLabel(){
-        let attributedString = NSAttributedString(string: "Score \(score)")
+        let attributedString = NSAttributedString(string: "Score: \(score)")
         scoreLabel.attributedText = attributedString
     }
     
     func updateViewFromModel(){
-        newCollection.reloadData()
-        isSet = game.isSelectedSet
+        DispatchQueue.main.async(execute: {
+            self.newCollection.reloadData()
+        })
         score = game.score
     }
     
@@ -119,7 +128,7 @@ class ViewController: UIViewController {
     }
     
     func newGame(){
-        game = Set()
+        game = SetGame()
         game.dealCards(inTotalOf: initalDealtCards)
         updateViewFromModel()
     }
@@ -170,6 +179,13 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         let cell = newCollection.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CollectionViewCell
         cell.backgroundColor = UIColor.white
         cell.layer.cornerRadius = 8
+        
+        if cell.isSelected {
+            cell.layer.borderColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+            cell.layer.borderWidth = 4
+        } else {
+            cell.layer.borderWidth = 0
+        }
         cell.cardView.drawPips(for: game.dealt[indexPath.item], size: CGFloat(calculatePipSize()), orientation: .vertical)
         return cell
     }
@@ -178,32 +194,68 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
     
     // THIS IS TO CUSTOMIZE THE CELLS
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return calculateHeightOfCard()
-//        return UICollectionViewFlowLayout.automaticSize
-//        return CGSize(width: collectionView.frame.width -10, height: 100)
+        return calculateHeightOfCard()
+        //        return UICollectionViewFlowLayout.automaticSize
+        //        return CGSize(width: collectionView.frame.width -10, height: 100)
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // select the card in the model
+        game.selectCard(at: indexPath.item)
+        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: UICollectionView.ScrollPosition.init())
+        // show the card as being selected
+        if let cell = collectionView.cellForItem(at: indexPath) {
+            cell.layer.borderColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+            cell.layer.borderWidth = 4
+        }
+        
         print("selected cell \(indexPath.item)")
         
-        game.selectCard(at: indexPath.item)
-        let cell = newCollection.cellForItem(at: indexPath)
-        cell?.backgroundColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        let numSelected = collectionView.indexPathsForSelectedItems?.count
         
-        updateViewFromModel()
+        
+        if numSelected == 3 {
+            print("3 cards selected")
+            
+            // check the game model if the 3 cards make a set
+            let isSet = game.checkSelected()
+            
+            score = game.score
+            
+            if isSet {
+                print("set found: \(isSet)")
+                setIndicator.text = setFoundString
+            } else {
+                setIndicator.text = notASetString
+            }
+            collectionView.deselectAllItems(animated: true)
+                    DispatchQueue.main.async(execute: {
+                                        self.newCollection.reloadData()
+                                    })
+        }
+        
+
     }
     
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        print("deselect cell at \(indexPath.item)")
+        // deselect the card from the game model
+        game.deselectCard(at: indexPath.item)
+        
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
+        score = game.score
+        if let cell = collectionView.cellForItem(at: indexPath) {
+            cell.layer.borderWidth = 0
+        }
+    }
+    
+    // allows selection of up to 3 items
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let shouldSelect = collectionView.indexPathsForSelectedItems!.count < 3
-        print("Number of selected items: \(shouldSelect)")
-        if(!shouldSelect){
-
-            collectionView.deselectAllItems(animated: false)
-        }
         return shouldSelect
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)

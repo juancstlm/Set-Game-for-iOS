@@ -19,6 +19,7 @@ class CardView: UIStackView {
         spacing = 5
         translatesAutoresizingMaskIntoConstraints = false
         
+        
         // add the appropriate number of symbols
         for _ in 1...card.number.rawValue{
             let shapeView = ShapeView()
