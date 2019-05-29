@@ -16,7 +16,6 @@ class ViewController: UIViewController {
     private var notASetString = "Not a set!"
     
     @IBOutlet weak var scoreLabel: UILabel! {didSet{updateScoreLabel()}}
-    @IBOutlet weak var setIndicator: UILabel!
     
     @IBOutlet weak var topBar: UIStackView!
     
@@ -80,22 +79,6 @@ class ViewController: UIViewController {
     @IBAction func restart(_ sender: UIButton) {
         newGame()
     }
-    
-    //    private func updateSetIndicatorLabel () {
-    //        if(game.isSelectedSet){
-    //            let attributedString = NSAttributedString(string: setFoundString)
-    //            print("We found a set boysss!!!")
-    //            setIndicator.attributedText = attributedString
-    //        } else if (!game.selected.isEmpty) {
-    //            let attributedString = NSAttributedString(string: notASetString)
-    //            print("not a set")
-    //            setIndicator.attributedText = attributedString
-    //        } else {
-    //            let attributedString = NSAttributedString(string: "")
-    //            print("empty selected set")
-    //            setIndicator.attributedText = attributedString
-    //        }
-    //    }
     
     private func updateScoreLabel(){
         let attributedString = NSAttributedString(string: "Score: \(score)")
@@ -221,15 +204,15 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
             cvFlowLayout.minimumInteritemSpacing = 9.0
             cvFlowLayout.minimumLineSpacing = 8.0
         case 13...30:
-            rows = 6.0
+            rows = 7.0
             cvFlowLayout.minimumInteritemSpacing = 9.0
             cvFlowLayout.minimumLineSpacing = 8.0
         case 31...52:
-            rows = 7.0
+            rows = 8.0
             cvFlowLayout.minimumInteritemSpacing = 5.0
             cvFlowLayout.minimumLineSpacing = 4.0
         case 53...81:
-            rows = 8.0
+            rows = 9.0
             cvFlowLayout.minimumInteritemSpacing = 3.0
             cvFlowLayout.minimumLineSpacing = 3.5
         default:
@@ -269,16 +252,10 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
             print("3 cards selected")
             
             // check the game model if the 3 cards make a set
-            let isSet = game.checkSelected()
+            game.checkSelected()
             
             score = game.score
             
-            if isSet {
-                print("set found: \(isSet)")
-                setIndicator.text = setFoundString
-            } else {
-                setIndicator.text = notASetString
-            }
             collectionView.deselectAllItems(animated: true)
         }
         

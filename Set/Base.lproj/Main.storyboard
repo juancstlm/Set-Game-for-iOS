@@ -79,15 +79,6 @@
                                     <constraint firstItem="xxy-hr-1sZ" firstAttribute="leading" secondItem="JZO-Yr-yY8" secondAttribute="leading" id="oca-OY-Muq"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJN-jv-iQl">
-                                <rect key="frame" x="137.66666666666666" y="44" width="100" height="0.0"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="pUZ-hU-lUs"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zeX-6e-r0i">
                                 <rect key="frame" x="16" y="742" width="343" height="36"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -112,12 +103,10 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zeX-6e-r0i" secondAttribute="trailing" constant="16" id="AS4-BU-Vf5"/>
+                            <constraint firstItem="JZO-Yr-yY8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="BjB-ZF-2Or"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JZO-Yr-yY8" secondAttribute="trailing" constant="16" id="GeM-to-ZrY"/>
-                            <constraint firstItem="hJN-jv-iQl" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Ihf-FX-HuP"/>
                             <constraint firstItem="JZO-Yr-yY8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="ZVd-qB-DuF"/>
-                            <constraint firstItem="JZO-Yr-yY8" firstAttribute="top" secondItem="hJN-jv-iQl" secondAttribute="bottom" id="gQJ-li-qet"/>
                             <constraint firstItem="zeX-6e-r0i" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="hmx-nT-Igp"/>
-                            <constraint firstItem="hJN-jv-iQl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="mdW-8E-94V"/>
                             <constraint firstItem="zeX-6e-r0i" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="uCJ-S2-Hw7"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -128,7 +117,6 @@
                     <connections>
                         <outlet property="dealButton" destination="zeX-6e-r0i" id="mUe-Dm-nNC"/>
                         <outlet property="scoreLabel" destination="xxy-hr-1sZ" id="LFw-wF-Ofd"/>
-                        <outlet property="setIndicator" destination="hJN-jv-iQl" id="rct-5i-0i2"/>
                         <outlet property="topBar" destination="JZO-Yr-yY8" id="4Qx-ax-Via"/>
                     </connections>
                 </viewController>
