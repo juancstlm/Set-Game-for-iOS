@@ -18,6 +18,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var scoreLabel: UILabel! {didSet{updateScoreLabel()}}
     @IBOutlet weak var setIndicator: UILabel!
     
+    @IBOutlet weak var topBar: UIStackView!
+    
+    @IBOutlet weak var dealButton: UIButton!
+    
     private(set) var isSet = false
     private(set) var score = 0 {didSet{updateScoreLabel()}}
     
@@ -35,6 +39,7 @@ class ViewController: UIViewController {
     }()
     
     
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent // .default
     }
@@ -42,10 +47,10 @@ class ViewController: UIViewController {
     let cellId = "cellId"
     
     func setupCollection(){
-        newCollection.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        newCollection.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        newCollection.heightAnchor.constraint(equalToConstant: view.frame.height - 180).isActive = true
-        newCollection.widthAnchor.constraint(equalToConstant: view.frame.width - 16).isActive = true
+        newCollection.topAnchor.constraint(equalTo: topBar.bottomAnchor, constant: 8).isActive = true
+        newCollection.bottomAnchor.constraint(equalTo: dealButton.topAnchor, constant: -8).isActive = true
+        newCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
+        newCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
     }
     
     
@@ -61,6 +66,13 @@ class ViewController: UIViewController {
         // Deal 3 Cards
     }
     @IBAction func shuffleDeck(_ sender: UIRotationGestureRecognizer) {
+        shuffleDealtCards()
+    }
+    
+    @IBAction func shuffleDeckButton(_ sender: UIButton) {
+        shuffleDealtCards()
+    }
+    func shuffleDealtCards(){
         game.shuffle()
         updateViewFromModel()
     }
@@ -136,27 +148,34 @@ class ViewController: UIViewController {
         newCollection.delegate = self
         newCollection.dataSource = self
         
+        // set up score label
+        scoreLabel.widthAnchor.constraint(equalToConstant: topBar.bounds.width / 2).isActive = true
+        scoreLabel.heightAnchor.constraint(equalToConstant: topBar.bounds.height).isActive = true
+//        topBar.heightAnchor.constraint(equalToConstant: view.bounds.height/5).isActive = true
+        
         newCollection.register(CollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         view.addSubview(newCollection)
+        
+        
         
         setupCollection()
         
         updateViewFromModel()
     }
-    
-    func calculateHeightOfCard()-> CGSize{
-        let count = game.dealt.count
-        let ratio = CGFloat( 0.75)
-        var height = CGFloat()
-        height = (newCollection.frame.height / 4 ) - 10.0
-        
-        if count <= 12 {
-            height = (newCollection.frame.height / 4 ) - 10.0
-            return CGSize(width: height * ratio, height: height)
-        }
-        return CGSize(width: 50, height: 70)
-    }
-    
+//
+//    func calculateHeightOfCard()-> CGSize{
+//        let count = game.dealt.count
+//        let ratio = CGFloat( 0.75)
+//        var height = CGFloat()
+//        height = (newCollection.frame.height / 4 ) - 10.0
+//
+//        if count <= 12 {
+//            height = (newCollection.frame.height / 4 ) - 10.0
+//            return CGSize(width: height * ratio, height: height)
+//        }
+//        return CGSize(width: 50, height: 70)
+//    }
+//
     func calculatePipSize()-> Int{
         if game.dealt.count == 12 {
             return 200
@@ -187,10 +206,41 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
     }
     
     
-    
     // THIS IS TO CUSTOMIZE THE CELLS
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return calculateHeightOfCard()
+        
+        
+        var rows: CGFloat = 0.0
+        
+        let cvFlowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+        
+        switch collectionView.numberOfItems(inSection: 0) {
+            
+        case 0...12:
+            rows = 4
+            cvFlowLayout.minimumInteritemSpacing = 9.0
+            cvFlowLayout.minimumLineSpacing = 8.0
+        case 13...30:
+            rows = 6.0
+            cvFlowLayout.minimumInteritemSpacing = 9.0
+            cvFlowLayout.minimumLineSpacing = 8.0
+        case 31...52:
+            rows = 7.0
+            cvFlowLayout.minimumInteritemSpacing = 5.0
+            cvFlowLayout.minimumLineSpacing = 4.0
+        case 53...81:
+            rows = 8.0
+            cvFlowLayout.minimumInteritemSpacing = 3.0
+            cvFlowLayout.minimumLineSpacing = 3.5
+        default:
+            rows = 4
+        }
+        
+        let height = (collectionView.bounds.height - (rows - 1) * cvFlowLayout.minimumInteritemSpacing) / rows
+        let width = height * 0.74
+        
+        
+        return CGSize(width: width, height: height)
         //        return UICollectionViewFlowLayout.automaticSize
         //        return CGSize(width: collectionView.frame.width -10, height: 100)
     }
@@ -234,9 +284,6 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         
 
     }
-    
-    
-    finalLayout
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         print("deselect cell at \(indexPath.item)")

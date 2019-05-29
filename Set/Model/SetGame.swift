@@ -26,7 +26,7 @@ class SetGame {
             }
         }
         // shuffle them just for good measure
-//        deck.shuffle()
+        deck.shuffle()
     }
     
     // Deal a given number of cards
